@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cagette Guessr</title>
+    <meta
+      name="description"
+      content="Devine le prix des produits locaux vendus sur Cagette.net !"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <!-- ── ACCUEIL ── -->
+      <div id="screen-home" class="screen active">
+        <div class="home-container">
+          <div class="logo">
+            <div class="logo-icon">🥕</div>
+            <h1>Cagette Guessr</h1>
+            <p class="tagline">Devine le prix des produits locaux !</p>
+          </div>
+
+          <div class="difficulty-selector">
+            <h3>Difficulté</h3>
+            <div class="difficulty-buttons">
+              <button class="btn-difficulty active" data-difficulty="easy">
+                Facile<br /><small>±20%</small>
+              </button>
+              <button class="btn-difficulty" data-difficulty="medium">
+                Moyen<br /><small>±10%</small>
+              </button>
+              <button class="btn-difficulty" data-difficulty="hard">
+                Difficile<br /><small>±5%</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="play-buttons">
+            <button id="btn-play-solo" class="btn-primary">
+              🎮 Jouer en solo
+            </button>
+
+            <div class="multi-group">
+              <span class="multi-group-label">Multijoueur</span>
+              <button id="btn-host-multi" class="btn-ghost">
+                👥 Créer une partie
+              </button>
+              <button id="btn-join-multi" class="btn-ghost">
+                🔗 Rejoindre une partie
+              </button>
+            </div>
+          </div>
+
+          <button id="btn-rules" class="btn-rules-link">
+            📖 Règles du jeu
+          </button>
+        </div>
+      </div>
+
+      <!-- ── MODALE RÈGLES ── -->
+      <div
+        id="modal-rules"
+        class="modal-backdrop"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="rules-title"
+        style="display: none"
+      >
+        <div class="modal-card">
+          <button class="modal-close" id="btn-close-rules" aria-label="Fermer">
+            ✕
+          </button>
+          <h2 id="rules-title">📖 Règles du jeu</h2>
+
+          <section class="rules-section">
+            <h3>🎯 Objectif</h3>
+            <p>
+              Un produit vendu sur <strong>Cagette.net</strong> t'est présenté
+              (nom, quantité, producteur·rice, photo). Devine son prix de vente
+              !
+            </p>
+          </section>
+
+          <section class="rules-section">
+            <h3>❤️ Vies &amp; score</h3>
+            <p>Tu démarres avec <strong>3 vies</strong>. À chaque manche :</p>
+            <ul>
+              <li>
+                ✅ <strong>Bonne réponse</strong> (dans la plage correcte) → +1
+                point, aucune vie perdue
+              </li>
+              <li>
+                🎉 <strong>Réponse parfaite</strong> (dans la plage bonus) → +1
+                point <em>et</em> +1 vie bonus !
+              </li>
+              <li>❌ <strong>Mauvaise réponse</strong> → −1 vie</li>
+            </ul>
+            <p class="rules-note">
+              Quand tu n'as plus de vies, la partie se termine.
+            </p>
+          </section>
+
+          <section class="rules-section">
+            <h3>⚙️ Difficultés</h3>
+            <div class="rules-table">
+              <div class="rules-table-header">
+                <span>Niveau</span>
+                <span>Plage correcte</span>
+                <span>Plage bonus (+1 vie)</span>
+              </div>
+              <div class="rules-table-row easy-row">
+                <span>🟢 Facile</span>
+                <span>± 20 %</span>
+                <span>± 10 %</span>
+              </div>
+              <div class="rules-table-row medium-row">
+                <span>🟡 Moyen</span>
+                <span>± 10 %</span>
+                <span>± 5 %</span>
+              </div>
+              <div class="rules-table-row hard-row">
+                <span>🔴 Difficile</span>
+                <span>± 5 %</span>
+                <span>± 1 %</span>
+              </div>
+            </div>
+            <p class="rules-note">
+              Exemple : prix réel <strong>10 €</strong>, en Facile → toute
+              réponse entre <strong>8 € et 12 €</strong> est correcte ; entre
+              <strong>9 € et 11 €</strong> tu gagnes une vie bonus.
+            </p>
+          </section>
+
+          <section class="rules-section">
+            <h3>👥 Multijoueur</h3>
+            <p>
+              L'hôte crée une salle et partage le
+              <strong>code 5 lettres</strong> (ou le lien direct). Tous les
+              joueurs voient le même produit simultanément. L'hôte passe à la
+              manche suivante une fois toutes les réponses reçues. La partie se
+              termine quand tous les joueurs ont perdu leurs vies.
+            </p>
+          </section>
+
+          <button class="btn-primary" id="btn-close-rules-bottom">
+            C'est parti !
+          </button>
+        </div>
+      </div>
+
+      <!-- ── REJOINDRE ── -->
+      <div id="screen-join" class="screen">
+        <div class="join-container">
+          <button class="btn-back" id="btn-back-join">← Retour</button>
+          <h2>Rejoindre une partie</h2>
+          <div class="join-form">
+            <input
+              type="text"
+              id="input-player-name"
+              placeholder="Votre pseudo"
+              maxlength="20"
+              autocomplete="off"
+            />
+            <input
+              type="text"
+              id="input-room-code"
+              placeholder="Code de la salle (5 lettres)"
+              maxlength="5"
+              autocomplete="off"
+              style="text-transform: uppercase"
+            />
+            <button id="btn-join-confirm" class="btn-primary">Rejoindre</button>
+          </div>
+          <p id="join-error" class="error-msg"></p>
+        </div>
+      </div>
+
+      <!-- ── LOBBY ── -->
+      <div id="screen-lobby" class="screen">
+        <div class="lobby-container">
+          <button class="btn-back" id="btn-back-lobby">← Retour</button>
+          <h2>Salle d'attente</h2>
+          <div id="host-name-section" style="display: none">
+            <input
+              type="text"
+              id="input-host-name"
+              placeholder="Votre pseudo"
+              maxlength="20"
+              autocomplete="off"
+              class="host-name-input"
+            />
+          </div>
+          <div class="room-code-display">
+            <div>
+              <span class="label">Code :</span>
+              <span id="lobby-room-code" class="room-code">?????</span>
+            </div>
+            <button id="btn-copy-link" class="btn-small">
+              📋 Copier le lien
+            </button>
+          </div>
+          <div id="lobby-players" class="player-list"></div>
+          <p id="lobby-status" class="lobby-status">En attente de joueurs…</p>
+          <button id="btn-start-game" class="btn-primary" style="display: none">
+            ▶ Lancer la partie
+          </button>
+        </div>
+      </div>
+
+      <!-- ── JEU ── -->
+      <div id="screen-game" class="screen">
+        <div class="game-header">
+          <a href="./" class="game-header-logo" id="btn-game-home"
+            >🥕 Cagette Guessr</a
+          >
+          <div class="lives" id="game-lives">
+            <span class="life active">🟢</span>
+            <span class="life active">🟢</span>
+            <span class="life active">🟢</span>
+          </div>
+          <div class="score">Score : <span id="game-score">0</span></div>
+          <div id="game-round-info" class="round-info"></div>
+          <div id="game-timer" class="game-timer" style="display: none">
+            ⏱ <span id="timer-value">30</span>s
+          </div>
+        </div>
+
+        <div class="product-card" id="product-card">
+          <div class="product-image-container">
+            <img id="product-image" src="" alt="Photo du produit" />
+            <span
+              id="product-organic"
+              class="badge-organic"
+              style="display: none"
+              aria-label="Bio"
+              ><img src="./bio.svg" alt="Bio logo"
+            /></span>
+          </div>
+          <div class="product-info">
+            <h2 id="product-name"></h2>
+            <p class="product-vendor-label">
+              <span id="product-vendor"></span>
+              <span id="product-zip" class="zip-code"></span>
+            </p>
+            <div class="product-bottom-row">
+              <div class="product-qty-col">
+                <span id="product-quantity" class="product-qty"></span>
+              </div>
+              <div class="product-price-slot" aria-hidden="true">9.90 €</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Statuts multijoueur -->
+        <div
+          id="multi-players-status"
+          class="multi-status"
+          style="display: none"
+        ></div>
+
+        <!-- Saisie du prix -->
+        <div class="guess-section">
+          <div class="price-input-container">
+            <input
+              type="number"
+              id="price-input"
+              placeholder="0.00"
+              min="0"
+              step="0.01"
+              aria-label="Votre réponse en euros"
+            />
+            <span class="currency">€</span>
+          </div>
+          <button id="btn-submit-guess" class="btn-primary">Valider</button>
+        </div>
+
+        <!-- Overlay résultat -->
+        <div
+          class="result-overlay"
+          id="result-overlay"
+          style="display: none"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div class="result-card">
+            <div
+              id="result-emoji"
+              class="result-emoji"
+              aria-hidden="true"
+            ></div>
+            <div id="result-message" class="result-message"></div>
+            <div class="result-prices">
+              <div>Votre réponse : <strong id="result-guess"></strong></div>
+              <div>Prix réel : <strong id="result-actual"></strong></div>
+              <div id="result-diff" class="result-diff"></div>
+            </div>
+            <div
+              id="result-multi-scores"
+              class="result-multi-scores"
+              style="display: none"
+            ></div>
+            <button id="btn-next-round" class="btn-primary">
+              Produit suivant →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GAME OVER ── -->
+      <div id="screen-gameover" class="screen">
+        <div class="gameover-container">
+          <div class="gameover-trophy">🏆</div>
+          <h2>Partie terminée</h2>
+          <div class="final-score">
+            <p>Votre score</p>
+            <span id="final-score-value">0</span>
+          </div>
+          <div
+            id="gameover-leaderboard"
+            class="gameover-leaderboard"
+            style="display: none"
+          ></div>
+          <div class="gameover-buttons">
+            <button id="btn-play-again" class="btn-primary">🔄 Rejouer</button>
+            <button id="btn-go-home" class="btn-secondary">🏠 Accueil</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div
+      id="toast"
+      class="toast"
+      role="status"
+      aria-live="polite"
+      style="display: none"
+    ></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

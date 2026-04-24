@@ -1,0 +1,20 @@
+{
+  "name": "cagette-guessr",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "split-data": "node scripts/split-products.mjs",
+    "encrypt-data": "node scripts/encrypt-data.mjs",
+    "prepare-data": "npm run split-data && npm run encrypt-data"
+  },
+  "dependencies": {
+    "peerjs": "^1.5.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  }
+}
