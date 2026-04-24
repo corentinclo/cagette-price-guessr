@@ -68,12 +68,19 @@ body {
 .logo-icon {
   font-size: 4rem;
   line-height: 1;
-  margin-bottom: 0.5rem;
+  margin-bottom: -2rem;
 }
 .logo-img {
   width: 96px;
   height: 96px;
   object-fit: contain;
+}
+.logo-title-img {
+  height: clamp(2rem, 8vw, 3.2rem);
+  width: auto;
+  display: block;
+  margin: 0 auto 0.25rem;
+  mix-blend-mode: multiply;
 }
 .logo h1 {
   font-size: clamp(1.8rem, 6vw, 3rem);
@@ -436,6 +443,11 @@ body {
   width: 24px;
   height: 24px;
   object-fit: contain;
+}
+.header-title-img {
+  height: 1.1rem;
+  width: auto;
+  mix-blend-mode: multiply;
 }
 .game-header-logo:hover {
   text-decoration: underline;
