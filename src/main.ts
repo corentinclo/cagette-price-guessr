@@ -232,6 +232,8 @@ document
 
 document.addEventListener("keydown", async (e) => {
   if (e.key !== "Enter") return;
+  // Ignore if Enter came from the price input (handled separately)
+  if ((e.target as HTMLElement)?.id === "price-input") return;
   const overlay = document.getElementById("result-overlay");
   if (overlay?.style.display !== "none" && overlay?.style.display !== "") {
     const btn = document.getElementById("btn-next-round") as HTMLButtonElement;
