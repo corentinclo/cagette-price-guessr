@@ -3,4 +3,4 @@ dist/
 .env.local
 allproducts.json
 public/data/*.json
-# .enc files are safe to commit (AES-GCM encrypted, unreadable without the key)
+allproducts_query.sql
