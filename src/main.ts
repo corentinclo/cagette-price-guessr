@@ -44,6 +44,9 @@ document.querySelectorAll<HTMLElement>(".btn-difficulty").forEach((btn) => {
 document
   .getElementById("btn-play-solo")!
   .addEventListener("click", async () => {
+    if (window.location.search) {
+      history.replaceState(null, "", window.location.pathname);
+    }
     currentMode = "solo";
     await startSolo(currentDifficulty);
   });
@@ -226,6 +229,15 @@ document
     else if (currentMode === "host") await hostAdvanceRound();
     // clients: the host drives the pace, button is hidden anyway
   });
+
+document.addEventListener("keydown", async (e) => {
+  if (e.key !== "Enter") return;
+  const overlay = document.getElementById("result-overlay");
+  if (overlay?.style.display !== "none" && overlay?.style.display !== "") {
+    const btn = document.getElementById("btn-next-round") as HTMLButtonElement;
+    if (btn && !btn.disabled && btn.style.display !== "none") btn.click();
+  }
+});
 
 // ── GAME OVER ─────────────────────────────────────────────────────────────────
 

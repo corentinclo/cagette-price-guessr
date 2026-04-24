@@ -11,6 +11,7 @@
   --card: #ffffff;
   --text: #333333;
   --text-muted: #666666;
+  --text-logo: #5b3908;
   --border: #e0ddd6;
   --radius: 12px;
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.09);
@@ -58,6 +59,7 @@ body {
   gap: 2rem;
   padding: 2rem 1.5rem;
   min-height: 100dvh;
+  color: var(--text-logo);
 }
 
 .logo {
@@ -68,9 +70,14 @@ body {
   line-height: 1;
   margin-bottom: 0.5rem;
 }
+.logo-img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
 .logo h1 {
   font-size: clamp(1.8rem, 6vw, 3rem);
-  color: var(--primary);
+  color: var(--text-logo);
   font-weight: 800;
   letter-spacing: -0.5px;
 }
@@ -415,11 +422,20 @@ body {
   gap: 0.5rem;
 }
 .game-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   font-weight: 800;
   font-size: 0.95rem;
   color: var(--primary);
   text-decoration: none;
   white-space: nowrap;
+  color: var(--text-logo);
+}
+.header-logo-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 .game-header-logo:hover {
   text-decoration: underline;
@@ -448,8 +464,15 @@ body {
 }
 .lives {
   display: flex;
+  align-items: center;
   gap: 0.2rem;
   font-size: 1.1rem;
+}
+.lives-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 0.2rem;
 }
 .life {
   opacity: 0.2;
