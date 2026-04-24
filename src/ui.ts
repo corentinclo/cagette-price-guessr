@@ -37,6 +37,10 @@ export function setDifficultyUI(difficulty: Difficulty): void {
 export function renderLives(lives: number): void {
   const container = document.getElementById("game-lives")!;
   container.innerHTML = "";
+  const label = document.createElement("span");
+  label.className = "lives-label";
+  label.textContent = lives <= 1 ? "Vie :" : "Vies :";
+  container.appendChild(label);
   const total = Math.max(lives, MAX_LIVES);
   for (let i = 0; i < total; i++) {
     const span = document.createElement("span");
