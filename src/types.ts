@@ -19,14 +19,33 @@ export type Difficulty = "easy" | "medium" | "hard";
 export interface DifficultyConfig {
   /** Max % off to still be counted as correct, e.g. 0.20 = ±20% */
   correctRange: number;
+  /** Minimum absolute tolerance in euros (takes over when % is too small) */
+  correctMinEuros: number;
   /** Max % off to earn a bonus life, e.g. 0.10 = ±10% */
   rewardRange: number;
+  /** Minimum absolute bonus tolerance in euros */
+  rewardMinEuros: number;
 }
 
 export const DIFFICULTY_CONFIG: Record<Difficulty, DifficultyConfig> = {
-  easy: { correctRange: 0.2, rewardRange: 0.1 },
-  medium: { correctRange: 0.1, rewardRange: 0.05 },
-  hard: { correctRange: 0.05, rewardRange: 0.01 },
+  easy: {
+    correctRange: 0.2,
+    correctMinEuros: 1.0,
+    rewardRange: 0.1,
+    rewardMinEuros: 0.5,
+  },
+  medium: {
+    correctRange: 0.1,
+    correctMinEuros: 0.7,
+    rewardRange: 0.05,
+    rewardMinEuros: 0.3,
+  },
+  hard: {
+    correctRange: 0.05,
+    correctMinEuros: 0.4,
+    rewardRange: 0.01,
+    rewardMinEuros: 0.15,
+  },
 };
 
 export const MAX_LIVES = 3;

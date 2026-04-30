@@ -9,9 +9,21 @@ export function evaluateGuess(
   difficulty: Difficulty
 ): Omit<RoundResult, "playerId" | "playerName"> {
   const cfg = DIFFICULTY_CONFIG[difficulty];
-  const percentOff = Math.abs(guess - actualPrice) / actualPrice;
-  const correct = percentOff <= cfg.correctRange;
-  const bonus = percentOff <= cfg.rewardRange;
+  const diff = Math.abs(guess - actualPrice);
+  const percentOff = diff / actualPrice;
+
+  // Tolerance = max(percentage-based, fixed minimum in euros)
+  const correctTolerance = Math.max(
+    cfg.correctRange * actualPrice,
+    cfg.correctMinEuros
+  );
+  const rewardTolerance = Math.max(
+    cfg.rewardRange * actualPrice,
+    cfg.rewardMinEuros
+  );
+
+  const correct = diff <= correctTolerance;
+  const bonus = diff <= rewardTolerance;
 
   return {
     guess,
