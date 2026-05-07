@@ -10,6 +10,8 @@ export interface Product {
   vendorName: string;
   vendorZipCode: string;
   imageUrl: string;
+  /** TxpCategory id — present only in data exported with the updated SQL query */
+  categoryId?: number;
 }
 
 // ── Difficulty ───────────────────────────────────────────────────────────────

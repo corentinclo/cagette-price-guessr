@@ -7,7 +7,15 @@ import type { Product } from "./types";
  */
 const CHUNK_COUNT = 43;
 
+/** Category IDs to exclude in vegetarian mode (meat=10, fish=1) */
+const VEGETARIAN_EXCLUDED_CATEGORIES = new Set([1, 10]);
+
 let productPool: Product[] = [];
+let _vegetarianMode = false;
+
+export function setVegetarianMode(enabled: boolean): void {
+  _vegetarianMode = enabled;
+}
 
 // ── Crypto helpers ────────────────────────────────────────────────────────────
 
@@ -51,7 +59,10 @@ async function decryptChunk(base64: string): Promise<Product[]> {
       typeof p.price === "number" &&
       p.price > 0 &&
       typeof p.imageUrl === "string" &&
-      p.imageUrl.length > 0
+      p.imageUrl.length > 0 &&
+      (!_vegetarianMode ||
+        p.categoryId === undefined ||
+        !VEGETARIAN_EXCLUDED_CATEGORIES.has(p.categoryId))
   );
 }
 

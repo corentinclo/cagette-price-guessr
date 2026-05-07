@@ -23,6 +23,7 @@ import {
   getRoomCode,
   setHostName,
 } from "./multiplayer";
+import { setVegetarianMode } from "./data";
 
 // ── App state ─────────────────────────────────────────────────────────────────
 
@@ -30,6 +31,13 @@ let currentDifficulty: Difficulty = "easy";
 let currentMode: "solo" | "host" | "client" | null = null;
 
 // ── HOME ──────────────────────────────────────────────────────────────────────
+
+const vegetarianToggle = document.getElementById(
+  "toggle-vegetarian"
+) as HTMLInputElement;
+vegetarianToggle.addEventListener("change", () => {
+  setVegetarianMode(vegetarianToggle.checked);
+});
 
 document.querySelectorAll<HTMLElement>(".btn-difficulty").forEach((btn) => {
   btn.addEventListener("click", () => {
