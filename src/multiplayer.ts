@@ -33,7 +33,7 @@ import {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 /** Prefix avoids collisions with other PeerJS apps on the default cloud broker */
-const PEER_PREFIX = "cagette-guessr-";
+const PEER_PREFIX = "cagette-price-guessr-";
 
 // ── State ─────────────────────────────────────────────────────────────────────
 
@@ -193,10 +193,14 @@ function resolveRound(): void {
       playerName: player.name,
     };
 
-    const updated = applyResult(player.score, player.lives, result);
-    player.score = updated.score;
-    player.lives = updated.lives;
-    if (player.lives <= 0) player.eliminated = true;
+    if (player.eliminated || player.lives <= 0) {
+      player.eliminated = true;
+    } else {
+      const updated = applyResult(player.score, player.lives, result);
+      player.score = updated.score;
+      player.lives = updated.lives;
+      if (player.lives <= 0) player.eliminated = true;
+    }
 
     results.push(result);
   });

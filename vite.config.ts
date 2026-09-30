@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 
-// Change the base to match your GitHub repo name, e.g. '/cagette-guessr/'
-// For local dev, you can set it to '/'
+// GitHub Pages serves this project under its repository name.
 export default defineConfig({
-  base: "/cagette-guessr/",
+  base: "/cagette-price-guessr/",
 });
